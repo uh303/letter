@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="favicon.ico">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik+Glitch+Pop&display=swap">
+        <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+        <title>Kabootar⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆</title>
+        <link rel="stylesheet" href="./style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </head>    
+<body>
+    <canvas id="space"></canvas>
+    <div class="container">
+        <div class="envelope-wrapper">
+            <div class="envelope">
+                <div class="letter">
+                    <div class="text">
+                        <strong class="letter_emoji">Dear Ashzebkhan ❀</strong>
+                        <p>
+                            Okay so Gift #01 maybe? There is a lot to apologize for and a lot to thank for but i know i can't cover it all so here's a link  (bottom emojis) to a tiny koshish to cover some aspects of it ☃︎ 
+                        </p>
+                        <p>
+                          You know you love me, xoxo
+                        </p>
+                        <h3 class="letter_emoji">
+                            *ੈ✩‧₊˚༺☆༻*ੈ✩‧₊˚
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="heart"></div>
+        </div>
+    </div>
+    <div class="title-container">
+        <h1 class="typed">I Love You Khatoon</h1>
+        <h2 class="emoji">
+          <a href="https://drive.google.com/file/d/1g8wLTNzliDyS0DwU7RouSvdDWThzZoRw/view?usp=drive_link" target="_blank" style="text-decoration: none; color: inherit;" onmouseover="this.style.color='#DBB5B5'" onmouseout="this.style.color='inherit'">𓇢𓆸🔮⋆˚✿˖°🪐༘⋆</a>
+        </h2>
+      </div>
+    <script>
+        const envelope = document.querySelector('.envelope-wrapper');
+        envelope.addEventListener('click', () => {
+            envelope.classList.toggle('flap');
+        });
+
+        var canvas;
+var context;
+var screenH;
+var screenW;
+var stars = [];
+var fps = 50;
+var numStars = 2000;
+
+$('document').ready(function() {
+  
+  // Calculate the screen size
+  screenH = $(window).height();
+  screenW = $(window).width();
+  
+  // Get the canvas
+  canvas = $('#space');
+  
+  // Fill out the canvas
+  canvas.attr('height', screenH);
+  canvas.attr('width', screenW);
+  context = canvas[0].getContext('2d');
+  
+  // Create all the stars
+  for(var i = 0; i < numStars; i++) {
+    var x = Math.round(Math.random() * screenW);
+    var y = Math.round(Math.random() * screenH);
+    var length = 1 + Math.random() * 2;
+    var opacity = Math.random();
+    
+    // Create a new star and draw
+    var star = new Star(x, y, length, opacity);
+    
+    // Add the the stars array
+    stars.push(star);
+  }
+  
+  setInterval(animate, 1000 / fps);
+});
+
+/**
+ * Animate the canvas
+ */
+function animate() {
+  context.clearRect(0, 0, screenW, screenH);
+  $.each(stars, function() {
+    this.draw(context);
+  })
+}
+
+/**
+ * Star
+ * 
+ * @param int x
+ * @param int y
+ * @param int length
+ * @param opacity
+ */
+function Star(x, y, length, opacity) {
+  this.x = parseInt(x);
+  this.y = parseInt(y);
+  this.length = parseInt(length);
+  this.opacity = opacity;
+  this.factor = 1;
+  this.increment = Math.random() * .03;
+}
+
+/**
+ * Draw a star
+ * 
+ * This function draws a start.
+ * You need to give the contaxt as a parameter 
+ * 
+ * @param context
+ */
+Star.prototype.draw = function() {
+  context.rotate((Math.PI * 1 / 10));
+  
+  // Save the context
+  context.save();
+  
+  // move into the middle of the canvas, just to make room
+  context.translate(this.x, this.y);
+  
+  // Change the opacity
+  if(this.opacity > 1) {
+    this.factor = -1;
+  }
+  else if(this.opacity <= 0) {
+    this.factor = 1;
+    
+    this.x = Math.round(Math.random() * screenW);
+    this.y = Math.round(Math.random() * screenH);
+  }
+    
+  this.opacity += this.increment * this.factor;
+  
+  context.beginPath()
+  for (var i = 5; i--;) {
+    context.lineTo(0, this.length);
+    context.translate(0, this.length);
+    context.rotate((Math.PI * 2 / 10));
+    context.lineTo(0, - this.length);
+    context.translate(0, - this.length);
+    context.rotate(-(Math.PI * 6 / 10));
+  }
+  context.lineTo(0, this.length);
+  context.closePath();
+  context.fillStyle = "rgba(255, 255, 200, " + this.opacity + ")";
+  context.shadowBlur = 5;
+  context.shadowColor = '#ffff33';
+  context.fill();
+  
+  context.restore();
+}
+    </script>
+</body>
+</html>
